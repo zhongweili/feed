@@ -200,7 +200,20 @@ ${cleanContent.slice(0, 5000)} // 限制内容长度以避免超出token限制
       200000   // 最大延迟200秒
     );
 
-    return completion.choices[0].message.content?.trim() || "无法生成摘要。";
+    // Robustly check the OpenAI API response
+    if (
+      !completion ||
+      !completion.choices ||
+      !Array.isArray(completion.choices) ||
+      !completion.choices[0] ||
+      !completion.choices[0].message ||
+      typeof completion.choices[0].message.content !== "string"
+    ) {
+      console.error("OpenAI API 返回格式异常:", completion);
+      return "无法生成摘要。AI 模型返回异常。";
+    }
+
+    return completion.choices[0].message.content.trim() || "无法生成摘要。";
   } catch (error) {
     console.error("生成摘要时出错:", error);
     return "无法生成摘要。AI 模型暂时不可用。";
