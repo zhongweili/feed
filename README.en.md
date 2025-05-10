@@ -2,26 +2,6 @@
 
 # <p align="center">😋FeedMe</p>
 
-<div align="center">
-
-[![Next.js](https://img.shields.io/badge/Next.js-111111?style=flat&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![shadcn/ui](https://img.shields.io/badge/shadcn/ui-111111?style=flat&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
-[![RSS](https://img.shields.io/badge/RSS-Feed-orange?style=flat&logo=rss)](https://en.wikipedia.org/wiki/RSS)
-[![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white)](https://openai.com/)
-[![pnpm](https://img.shields.io/badge/pnpm-F69220?style=flat&logo=pnpm&logoColor=white)](https://pnpm.io/)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
-
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Seanium/feedme/update-deploy.yml?branch=main&style=flat&logo=github)](https://github.com/Seanium/feedme/actions)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Active-4EA94B?style=flat&logo=github)](https://feedme.icu)
-[![Vercel](https://img.shields.io/badge/Vercel-Ready-000000?style=flat&logo=vercel&logoColor=white)](https://feed-me-delta.vercel.app/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![RSS Update](https://img.shields.io/badge/RSS%20Update-Every%203h-lightgrey?style=flat&logo=github-actions)](https://github.com/Seanium/feedme/blob/main/.github/workflows/update-deploy.yml)
-
-</div>
-
 <p align="center">
   <b>AI-powered RSS reader, deployable to GitHub Pages or with Docker</b>
 </p>
@@ -61,23 +41,25 @@ This project uses GitHub Actions for automatic deployment to GitHub Pages, with 
 1. **Fork or Clone the Repository** to your GitHub account
 
 2. **Set GitHub Secrets**
-   
+
    Add the following secrets in your project's Settings - Secrets and variables: Actions:
+
    - `LLM_API_KEY`: API key for AI summary generation
    - `LLM_API_BASE`: API base URL for the LLM service
    - `LLM_NAME`: Name of the model to use
 
 3. **Enable GitHub Pages**
-   
+
    In repository settings, choose to deploy from GitHub Actions
 
 4. **Manually Trigger the Workflow** (optional)
-   
+
    Manually trigger the "Update Data and Deploy" workflow from the Actions page of your GitHub repository
 
 #### Workflow Description
 
 **Update Data and Deploy** (`update-deploy.yml`):
+
 - Trigger conditions:
   - Scheduled execution (every 3 hours)
   - Push to main branch
@@ -93,6 +75,7 @@ This project uses GitHub Actions for automatic deployment to GitHub Pages, with 
 
 - **Customize RSS Sources**:
   Edit the `config/rss-config.js` file to modify or add RSS sources. Each source should include:
+
   - Name
   - URL
   - Category
@@ -100,12 +83,13 @@ This project uses GitHub Actions for automatic deployment to GitHub Pages, with 
 - **Modify Update Frequency**: Edit the cron expression in `.github/workflows/update-deploy.yml`
   ```yml
   # For example, change to update once daily at midnight
-  cron: '0 0 * * *'
+  cron: "0 0 * * *"
   ```
 - **Adjust Retained Items**: Modify the `maxItemsPerFeed` value in `config/rss-config.js`
 
 - **Custom Domain Configuration**:
   Please follow these instructions to avoid page resource loading issues:
+
   - **Not using a custom domain**: Delete the `CNAME` file in the directory
   - **Using a custom domain**: Add your custom domain in the GitHub Pages section of repository settings, and modify the CNAME file content to your custom domain
   - **Multi-platform deployment**: The system automatically handles path differences for different platforms (GitHub Pages/Vercel):
@@ -126,6 +110,7 @@ Import your GitHub repository to Vercel:
 4. Keep the default settings and click "Deploy" to start the deployment
 
 **Configure automatic updates:**
+
 1. After Vercel deployment, obtain the following information:
    - `VERCEL_TOKEN`: Create from [Vercel Tokens](https://vercel.com/account/tokens)
    - `VERCEL_ORG_ID`: Find at [Account Settings](https://vercel.com/account) > General > bottom of the page
@@ -138,17 +123,21 @@ Import your GitHub repository to Vercel:
 This method uses Docker to run FeedMe locally or on a server. It utilizes an in-container Cron job for automatic data updates and rebuilds, independent of GitHub Actions.
 
 1.  **Clone the Repository**
+
     ```bash
-    git clone https://github.com/Seanium/feedme.git
+    git clone https://github.com/zhongweili/feed.git
     cd feedme
     ```
 
 2.  **Configure Environment Variables**
     Copy the `.env.example` file to `.env` and fill in the necessary API keys:
+
     ```bash
     cp .env.example .env
     ```
+
     Edit the `.env` file:
+
     ```dotenv
     LLM_API_KEY=your_api_key
     LLM_API_BASE=LLM_service_api_base_url
@@ -156,6 +145,7 @@ This method uses Docker to run FeedMe locally or on a server. It utilizes an in-
     ```
 
 3.  **Build and Start the Docker Container**
+
     ```bash
     docker-compose up --build
     ```
@@ -170,35 +160,42 @@ This method uses Docker to run FeedMe locally or on a server. It utilizes an in-
 ## Development Guide
 
 1. **Clone the Repository**
+
    ```bash
-   git clone https://github.com/Seanium/feedme.git
+   git clone https://github.com/zhongweili/feed.git
    cd feedme
    ```
 
 2. **Install Dependencies**
+
    ```bash
    pnpm install
    ```
 
 3. **Configure Environment Variables**
-   
+
    Copy the example environment file and edit it:
+
    ```bash
    cp .env.example .env
    ```
-   
+
    Fill in the following content:
+
    ```
    LLM_API_KEY=your_api_key
    LLM_API_BASE=LLM service API base URL (e.g., https://api.siliconflow.cn/v1)
    LLM_NAME=model name (e.g., THUDM/GLM-4-9B-0414)
    ```
+
    These environment variables are used to configure the article summary generation feature and need to be obtained from an LLM service provider
 
 4. **Update RSS Data**
+
    ```bash
    pnpm update-feeds
    ```
+
    This command fetches RSS sources and generates summaries, saving them to the `data` directory
 
 5. **Start the Development Server**
@@ -207,16 +204,6 @@ This method uses Docker to run FeedMe locally or on a server. It utilizes an in-
    ```
    Visit [http://localhost:3000](http://localhost:3000) to view the application
 
-## Star History
-
-<a href="https://www.star-history.com/#Seanium/FeedMe&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Seanium/FeedMe&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Seanium/FeedMe&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Seanium/FeedMe&type=Date" />
- </picture>
-</a>
-
 ## License
 
-[MIT](LICENSE) © 2025 Seanium 
+[MIT](LICENSE) © 2025

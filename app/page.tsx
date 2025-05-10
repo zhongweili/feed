@@ -19,7 +19,7 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <a
-              href="https://github.com/Seanium/feedme"
+              href="https://github.com/zhongweili/feed"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub 仓库"

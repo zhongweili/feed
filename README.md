@@ -1,26 +1,8 @@
 [中文文档](./README.md) | [English Documentation](./README.en.md)
 
+Forked from https://github.com/Seanium/FeedMe
+
 # <p align="center">😋FeedMe</p>
-
-<div align="center">
-
-[![Next.js](https://img.shields.io/badge/Next.js-111111?style=flat&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![shadcn/ui](https://img.shields.io/badge/shadcn/ui-111111?style=flat&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
-[![RSS](https://img.shields.io/badge/RSS-Feed-orange?style=flat&logo=rss)](https://en.wikipedia.org/wiki/RSS)
-[![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white)](https://openai.com/)
-[![pnpm](https://img.shields.io/badge/pnpm-F69220?style=flat&logo=pnpm&logoColor=white)](https://pnpm.io/)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
-
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Seanium/feedme/update-deploy.yml?branch=main&style=flat&logo=github)](https://github.com/Seanium/feedme/actions)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Active-4EA94B?style=flat&logo=github)](https://feedme.icu)
-[![Vercel](https://img.shields.io/badge/Vercel-Ready-000000?style=flat&logo=vercel&logoColor=white)](https://feed-me-delta.vercel.app/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![RSS Update](https://img.shields.io/badge/RSS%20Update-Every%203h-lightgrey?style=flat&logo=github-actions)](https://github.com/Seanium/feedme/blob/main/.github/workflows/update-deploy.yml)
-
-</div>
 
 <p align="center">
   <b>用 AI 重新定义你的 RSS 阅读体验，轻松部署到 GitHub Pages / Docker</b>
@@ -61,23 +43,25 @@
 1. **Fork 或克隆仓库**到你的 GitHub 账号
 
 2. **设置 GitHub Secrets**
-   
+
    在项目顶端 Settings - 左侧 Secrets and variables -> Actions 中添加以下密钥（**Secrets**）：
+
    - `LLM_API_KEY`: 用于 AI 摘要生成的 API 密钥
    - `LLM_API_BASE`: LLM 服务的 API 基础 URL
    - `LLM_NAME`: 使用的模型名称
 
 3. **启用 GitHub Pages**
-   
+
    在仓库设置中，选择从 GitHub Actions 部署
 
 4. **手动触发工作流**（可选）
-   
+
    在 GitHub 仓库的 Actions 页面手动触发"更新数据并部署"工作流
 
 #### 工作流说明
 
 **更新数据并部署** (`update-deploy.yml`)：
+
 - 触发条件：
   - 定时执行（每 3 小时一次）
   - 推送到 main 分支
@@ -87,26 +71,29 @@
   - 构建静态网站
   - 根据仓库变量设置决定部署目标:
     - 总是部署到 GitHub Pages
-    - 如果 `ENABLE_VERCEL_DEPLOYMENT` 为 `true` 则部署到Vercel
+    - 如果 `ENABLE_VERCEL_DEPLOYMENT` 为 `true` 则部署到 Vercel
 
 #### 自定义部署配置
 
 - **自定义 RSS 源**：
   编辑 `config/rss-config.js` 文件以修改或添加 RSS 源。每个源需要包含：
+
   - 名称
   - URL
   - 分类
 
 - **修改更新频率**: 编辑 `.github/workflows/update-deploy.yml` 中的 cron 表达式
+
   ```yml
   # 例如，改为每天凌晨更新一次
-  cron: '0 0 * * *'
+  cron: "0 0 * * *"
   ```
 
 - **调整保留条目数**: 修改 `config/rss-config.js` 中的 `maxItemsPerFeed` 值
 
 - **自定义域名配置**:
   请按照以下内容设置，避免出现页面资源加载异常：
+
   - **不使用自定义域名**: 请删除目录下的 `CNAME` 文件
   - **使用自定义域名**: 在仓库设置的 GitHub Pages 部分添加自定义域名，并修改 CNAME 文件内容为自定义域名
   - **多平台部署**: 系统会自动处理不同平台（GitHub Pages/Vercel）的路径差异:
@@ -121,12 +108,13 @@
 
 将你的 GitHub 仓库导入到 Vercel：
 
-1. 前往 [Vercel导入页面](https://vercel.com/import/git)
+1. 前往 [Vercel 导入页面](https://vercel.com/import/git)
 2. 选择 "GitHub" 并授权访问
 3. 搜索并选择你 fork 的 FeedMe 仓库
 4. 保持默认设置，点击 "Deploy" 开始部署
 
 **配置自动更新：**
+
 1. 完成 Vercel 部署后，获取以下信息:
    - `VERCEL_TOKEN`: 从 [Vercel Tokens](https://vercel.com/account/tokens) 创建
    - `VERCEL_ORG_ID`: 从 [账户设置](https://vercel.com/account) > 常规 > 页面底部获取
@@ -139,17 +127,21 @@
 此方式使用 Docker 在本地或服务器上运行 FeedMe，并通过容器内的 Cron 任务自动更新数据和重建，不依赖 GitHub Actions。
 
 1.  **克隆仓库**
+
     ```bash
-    git clone https://github.com/Seanium/feedme.git
+    git clone https://github.com/zhongweili/feed.git
     cd feedme
     ```
 
 2.  **配置环境变量**
     复制 `.env.example` 文件为 `.env` 并填入必要的 API 密钥：
+
     ```bash
     cp .env.example .env
     ```
+
     编辑 `.env` 文件：
+
     ```dotenv
     LLM_API_KEY=你的_API_密钥
     LLM_API_BASE=LLM服务的API基础URL
@@ -157,6 +149,7 @@
     ```
 
 3.  **构建并启动 Docker 容器**
+
     ```bash
     docker-compose up --build
     ```
@@ -171,35 +164,42 @@
 ## 开发指南
 
 1. **克隆仓库**
+
    ```bash
-   git clone https://github.com/Seanium/feedme.git
+   git clone https://github.com/zhongweili/feed.git
    cd feedme
    ```
 
 2. **安装依赖**
+
    ```bash
    pnpm install
    ```
 
 3. **配置环境变量**
-   
+
    复制环境变量示例文件并编辑：
+
    ```bash
    cp .env.example .env
    ```
-   
+
    填入以下内容：
+
    ```
    LLM_API_KEY=你的 API 密钥
    LLM_API_BASE=LLM服务的 API 基础 URL（例如：https://api.siliconflow.cn/v1）
    LLM_NAME=使用的模型名称（例如：THUDM/GLM-4-9B-0414）
    ```
+
    这些环境变量用于配置文章摘要生成功能，需要从 LLM 服务提供商获取
 
 4. **更新 RSS 数据**
+
    ```bash
    pnpm update-feeds
    ```
+
    此命令会抓取 RSS 源并生成摘要，保存到 `data` 目录
 
 5. **启动开发服务器**
@@ -208,16 +208,6 @@
    ```
    访问 [http://localhost:3000](http://localhost:3000) 查看应用
 
-## Star 趋势
-
-<a href="https://www.star-history.com/#Seanium/FeedMe&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Seanium/FeedMe&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Seanium/FeedMe&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Seanium/FeedMe&type=Date" />
- </picture>
-</a>
-
 ## 许可证
 
-[MIT](LICENSE) © 2025 Seanium
+[MIT](LICENSE) © 2025
