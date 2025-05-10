@@ -131,8 +131,35 @@ function loadFeedData(sourceUrl) {
   }
 }
 
+// 简单 sleep 函数
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// 指数退避重试
+async function retryAsync(fn, retries = 5, baseDelay = 2000, maxDelay = 20000) {
+  let lastError;
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastError = err;
+      if (i < retries - 1) {
+        // 退避时间 = baseDelay * 2^i，最大不超过 maxDelay
+        const delay = Math.min(baseDelay * Math.pow(2, i), maxDelay);
+        console.warn(`请求失败，${delay}ms 后重试...（第${i + 1}次）`);
+        await sleep(delay);
+      }
+    }
+  }
+  throw lastError;
+}
+
 // 生成摘要函数
 async function generateSummary(title, content) {
+  // 降低请求频率，每次请求前 sleep 1 秒
+  await sleep(1000);
+
   try {
     // 清理内容 - 移除HTML标签
     const cleanContent = content.replace(/<[^>]*>?/gm, "");
@@ -153,17 +180,25 @@ async function generateSummary(title, content) {
 ${cleanContent.slice(0, 5000)} // 限制内容长度以避免超出token限制
 `;
 
-    const completion = await openai.chat.completions.create({
-      model: OPENAI_MODEL_NAME,
-      messages: [
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
-      temperature: 0.3,
-      max_tokens: 500,
-    });
+    // 用 retryAsync 包裹 openai 请求，指数退避
+    const completion = await retryAsync(
+      async () => {
+        return await openai.chat.completions.create({
+          model: OPENAI_MODEL_NAME,
+          messages: [
+            {
+              role: "user",
+              content: prompt
+            }
+          ],
+          temperature: 0.3,
+          max_tokens: 500,
+        });
+      },
+      6,      // 最多重试6次
+      2000,   // 初始延迟2秒
+      200000   // 最大延迟200秒
+    );
 
     return completion.choices[0].message.content?.trim() || "无法生成摘要。";
   } catch (error) {
