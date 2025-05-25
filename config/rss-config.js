@@ -67,7 +67,7 @@ export const config = {
     //   name: "LINUX DO 近一周热门",
     //   url: "https://r4l.deno.dev/https://linux.do/top.rss?period=weekly",
     //   category: "论坛",
-    },
+    // },
     // {
     //   name: "LINUX DO 近一月热门",
     //   url: "https://r4l.deno.dev/https://linux.do/top.rss?period=monthly",
