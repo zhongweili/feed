@@ -58,31 +58,31 @@ export const config = {
     //   url: "https://rsshub.rssforever.com/producthunt/today",
     //   category: "产品资讯",
     // },
-    {
-      name: "LINUX DO 今日热门",
-      url: "https://r4l.deno.dev/https://linux.do/top.rss?period=daily",
-      category: "论坛",
+    // {
+    //   name: "LINUX DO 今日热门",
+    //   url: "https://r4l.deno.dev/https://linux.do/top.rss?period=daily",
+    //   category: "论坛",
+    // },
+    // {
+    //   name: "LINUX DO 近一周热门",
+    //   url: "https://r4l.deno.dev/https://linux.do/top.rss?period=weekly",
+    //   category: "论坛",
     },
-    {
-      name: "LINUX DO 近一周热门",
-      url: "https://r4l.deno.dev/https://linux.do/top.rss?period=weekly",
-      category: "论坛",
-    },
-    {
-      name: "LINUX DO 近一月热门",
-      url: "https://r4l.deno.dev/https://linux.do/top.rss?period=monthly",
-      category: "论坛",
-    },
+    // {
+    //   name: "LINUX DO 近一月热门",
+    //   url: "https://r4l.deno.dev/https://linux.do/top.rss?period=monthly",
+    //   category: "论坛",
+    // },
     {
       name: "V2EX 今日热门",
       url: "https://rsshub.rssforever.com/v2ex/topics/hot",
       category: "论坛",
     },
-    {
-      name: "Bangumi 近一月热门",
-      url: "https://rsshub.rssforever.com/bangumi.tv/anime/followrank",
-      category: "番剧资讯",
-    },
+    // {
+    //   name: "Bangumi 近一月热门",
+    //   url: "https://rsshub.rssforever.com/bangumi.tv/anime/followrank",
+    //   category: "番剧资讯",
+    // },
   ],
   maxItemsPerFeed: 30,
   dataPath: "./data",
